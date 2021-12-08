@@ -1,0 +1,18 @@
+linters:
+  disable-all: true
+  enable:
+    # Default enabled linters
+    - deadcode
+    - errcheck
+    - gosimple
+    - govet
+    - ineffassign
+    - staticcheck
+    - structcheck
+    - typecheck
+    - varcheck
+
+    # Added
+    # goimports aligns with VS Code setup and includes gofmt
+    - goimports
+    - golint
