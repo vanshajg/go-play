@@ -1,9 +1,10 @@
 package main
 
 import (
-	"learn-rod/config"
 	"log"
 	"net/http"
+
+	"github.com/vanshajg/go-play/config"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
