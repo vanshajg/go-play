@@ -1,0 +1,8 @@
+database:
+  dialect: sqlite3
+  host:  hn.db
+  port:
+  dbname: 
+  username: 
+  password: 
+  migration: true

@@ -1,0 +1,20 @@
+- database connection
+    - database = postgres / sqlite3
+    - gorm
+    - migration
+- controller
+    - auth
+    - health
+    - caching
+    - swagger
+- metrics
+    - prometheus
+- scheduler
+- email service
+- frontend
+- k8s
+
+
+path: 
+setup logger
+setup controller

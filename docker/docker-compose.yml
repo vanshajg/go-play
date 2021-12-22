@@ -1,39 +1,37 @@
 version: "3.8"
 services:
-  roach1:
-    container_name: roach1
-    image: cockroachdb/cockroach:v20.1.15
-    command: start --insecure --join=roach1,roach2,roach3
+  postgres:
+    container_name: postgres
+    image: postgres:9.6.24-stretch
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    logging:
+      options:
+        max-size: 10m
+        max-file: "3"
     ports:
-      - "26257:26257"
-      - "8111:8080"
+      - '5444:5432'
     volumes:
-      - ./cockroach-data/roach1:/cockroach/cockroach-data
-    networks:
-      - roachnet
+      - ./postgres-data:/var/lib/postgresql/data
+      # - ./sql/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
+      # - ./sql/fill_tables.sql:/docker-entrypoint-initdb.d/fill_tables.sql
 
-  roach2:
-    container_name: roach2
-    image: cockroachdb/cockroach:v20.1.15
-    command: start --insecure --join=roach1,roach2,roach3
-    volumes:
-      - ./cockroach-data/roach2:/cockroach/cockroach-data
+  pgweb:
+    container_name: pgweb
+    restart: always
+    image: sosedoff/pgweb
+    ports:
+      - "8081:8081"
+    links:
+      - postgres:postgres
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@postgres:5432/postgres?sslmode=disable
     depends_on:
-      - roach1
-    networks:
-      - roachnet
-
-  roach3:
-    container_name: roach3
-    image: cockroachdb/cockroach:v20.1.15
-    command: start --insecure --join=roach1,roach2,roach3
-    volumes:
-      - ./cockroach-data/roach3:/cockroach/cockroach-data
-    depends_on:
-      - roach1
-    networks:
-      - roachnet
-
-networks:
-  roachnet:
-    driver: bridge
+      - postgres
+        
+  redis:
+      ports:
+        - "6379:6379"
+      image: "redis:alpine"

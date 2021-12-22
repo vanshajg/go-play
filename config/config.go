@@ -1,30 +1,37 @@
 package config
 
 import (
-	"log"
+	"flag"
+	"fmt"
+	"os"
 
-	"github.com/caarlos0/env"
-	"github.com/joho/godotenv"
+	"github.com/jinzhu/configor"
 )
 
-type Configuration struct {
-	Port string `env:"PORT" envDefault:":8080"`
+type Config struct {
+	Database struct {
+		Dialect   string `default:"sqlite3"`
+		Host      string `default:"book.db"`
+		Port      string
+		Dbname    string
+		Username  string
+		Password  string
+		Migration bool `default:"false"`
+	}
 }
 
-func GetConfig(files ...string) (*Configuration, error) {
-	err := godotenv.Load(files...)
-
-	if err != nil {
-		log.Printf("No .env file could be found %q\n", files)
+func Load() (*Config, string) {
+	var env *string
+	if value := os.Getenv("WEB_APP_ENV"); value != "" {
+		env = &value
+	} else {
+		env = flag.String("env", "dev", "switch environments")
 	}
 
-	cfg := Configuration{}
-
-	err = env.Parse(&cfg)
-
-	if err != nil {
-		log.Printf("no .env file present in %q", files)
-		return nil, err
+	config := &Config{}
+	if err := configor.Load(config, "application."+*env+".yaml"); err != nil {
+		fmt.Printf("Failed to read application.%s.yaml : %s", *env, err)
+		os.Exit(2)
 	}
-	return &cfg, nil
+	return config, *env
 }
