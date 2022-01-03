@@ -1,0 +1,80 @@
+definitions:
+  dto.CommentDto:
+    properties:
+      by:
+        type: string
+      id:
+        type: integer
+      parent:
+        type: integer
+      text:
+        type: string
+      time:
+        type: integer
+      type:
+        type: string
+    type: object
+  models.Comment:
+    properties:
+      id:
+        type: integer
+      remote:
+        type: boolean
+    type: object
+info:
+  contact: {}
+paths:
+  /api/comment:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Comment'
+            type: array
+        "400":
+          description: failed to get comments
+          schema:
+            type: string
+        "401":
+          description: Failed to the authenticate. Returns false.
+          schema:
+            type: boolean
+      summary: gets comment list
+      tags:
+      - Comments
+    post:
+      consumes:
+      - application/json
+      description: Create a new Comment
+      parameters:
+      - description: a new comment
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CommentDto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully created a comment
+          schema:
+            $ref: '#/definitions/models.Comment'
+        "400":
+          description: Failed to create.
+          schema:
+            type: string
+        "401":
+          description: Failed to the authenticate. Returns false.
+          schema:
+            type: boolean
+      summary: Create a new Comment
+      tags:
+      - Comments
+swagger: "2.0"

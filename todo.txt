@@ -18,3 +18,4 @@
 path: 
 setup logger
 setup controller
+setup migration

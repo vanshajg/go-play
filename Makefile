@@ -1,0 +1,3 @@
+swag: 
+	@echo 😎 
+	swag init
