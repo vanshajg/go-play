@@ -6,6 +6,7 @@ import (
 	"github.com/vanshajg/go-play/container"
 	"github.com/vanshajg/go-play/logger"
 	"github.com/vanshajg/go-play/migration"
+	"github.com/vanshajg/go-play/offline"
 	"github.com/vanshajg/go-play/repository"
 	"github.com/vanshajg/go-play/router"
 )
@@ -22,6 +23,9 @@ func main() {
 	migration.CreateDatabase(container)
 
 	router.Init(e, container)
+
+	// starting scheduled crons
+	offline.Init(container)
 
 	if err := e.Start(":8080"); err != nil {
 		logger.GetZapLogger().Error(err)
