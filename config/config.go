@@ -11,7 +11,7 @@ import (
 type Config struct {
 	Database struct {
 		Dialect   string `default:"sqlite3"`
-		Host      string `default:"book.db"`
+		Host      string `default:"hn.db"`
 		Port      string
 		Dbname    string
 		Username  string
@@ -19,6 +19,15 @@ type Config struct {
 		Migration bool `default:"false"`
 	}
 }
+
+const (
+	// DEV represents development environment
+	DEV = "dev"
+	// PRD represents production environment
+	PRD = "prod"
+	// DOC represents docker container
+	DOC = "docker"
+)
 
 func Load() (*Config, string) {
 	var env *string
