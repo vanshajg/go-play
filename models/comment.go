@@ -9,8 +9,9 @@ import (
 )
 
 type Comment struct {
-	ID     uint `gorm:"primary_key" json:"id"`
-	Remote bool `json:"remote"`
+	ID       uint   `gorm:"primary_key" json:"id"`
+	Text     string `json:"text"`
+	IsRemote bool   `json:"is_remote"`
 }
 
 // TableName returns the table name of book struct and it is used by gorm.
@@ -22,12 +23,16 @@ const (
 	selectComment = "select * from comment"
 )
 
-func NewComment() *Comment {
-	return &Comment{}
+func NewComment(id uint, text string, isRemote bool, tech []int, locations []int) *Comment {
+	return &Comment{
+		ID:       id,
+		Text:     text,
+		IsRemote: isRemote,
+	}
 }
 
 func (c *Comment) Create(rep repository.Repository) (*Comment, error) {
-	if err := rep.Select("id", "remote").Create(c).Error; err != nil {
+	if err := rep.Select("id", "is_remote", "text").Create(c).Error; err != nil {
 		return nil, err
 	}
 	return c, nil

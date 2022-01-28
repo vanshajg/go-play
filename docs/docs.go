@@ -115,6 +115,12 @@ var doc = `{
                 "id": {
                     "type": "integer"
                 },
+                "kids": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
                 "parent": {
                     "type": "integer"
                 },
@@ -135,8 +141,11 @@ var doc = `{
                 "id": {
                     "type": "integer"
                 },
-                "remote": {
+                "is_remote": {
                     "type": "boolean"
+                },
+                "text": {
+                    "type": "string"
                 }
             }
         }

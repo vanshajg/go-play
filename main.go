@@ -9,6 +9,7 @@ import (
 	"github.com/vanshajg/go-play/offline"
 	"github.com/vanshajg/go-play/repository"
 	"github.com/vanshajg/go-play/router"
+	"github.com/vanshajg/go-play/service"
 )
 
 func main() {
@@ -19,13 +20,14 @@ func main() {
 
 	rep := repository.NewCommentRepository(logger, config)
 	container := container.NewContainer(rep, config, logger, env)
+	commentService := service.NewCommentService(container)
 
 	migration.CreateDatabase(container)
 
 	router.Init(e, container)
 
 	// starting scheduled crons
-	offline.Init(container)
+	offline.Init(container, commentService)
 
 	if err := e.Start(":8080"); err != nil {
 		logger.GetZapLogger().Error(err)

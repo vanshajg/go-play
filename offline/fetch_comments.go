@@ -8,9 +8,10 @@ import (
 
 	"github.com/vanshajg/go-play/container"
 	"github.com/vanshajg/go-play/models/dto"
+	"github.com/vanshajg/go-play/service"
 )
 
-func fetchComments(container container.Container) {
+func fetchComments(container container.Container, service *service.CommentService) {
 	logger := container.GetLogger().GetZapLogger()
 	baseURL := "https://hacker-news.firebaseio.com/v0/item/%d.json"
 	postURL := fmt.Sprintf(baseURL, 29782096)
@@ -42,6 +43,6 @@ func fetchComments(container container.Container) {
 		if err := json.Unmarshal(body, &commentDto); err != nil {
 			logger.Errorf("failed to unmarshal data %s", err.Error())
 		}
-		logger.Infof(commentDto.Text)
+		service.CreateComment(commentDto)
 	}
 }

@@ -1,6 +1,8 @@
 package dto
 
-import "github.com/vanshajg/go-play/models"
+import (
+	"github.com/vanshajg/go-play/models"
+)
 
 type CommentDto struct {
 	By     string `json:"by"`
@@ -17,5 +19,18 @@ func NewCommentDto() *CommentDto {
 }
 
 func (c *CommentDto) Create() *models.Comment {
-	return models.NewComment()
+	return models.NewComment(
+		c.ID,
+		c.Text,
+		isRemote(c.Text),
+		[]int{},
+		[]int{},
+	)
+}
+
+func isRemote(text string) bool {
+	//  regexp.Match("remote.{0,4}true", []byte(text))
+
+	// todo regex match with remote : true
+	return true
 }

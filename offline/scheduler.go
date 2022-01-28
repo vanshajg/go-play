@@ -5,9 +5,10 @@ import (
 
 	"github.com/go-co-op/gocron"
 	"github.com/vanshajg/go-play/container"
+	"github.com/vanshajg/go-play/service"
 )
 
-func Init(container container.Container) {
+func Init(container container.Container, commentService *service.CommentService) {
 	s := gocron.NewScheduler(time.UTC)
 	logger := container.GetLogger()
 	logger.GetZapLogger().Infof("starting scheduled jobs")
@@ -15,7 +16,7 @@ func Init(container container.Container) {
 		logger.GetZapLogger().Infof("scheduled log")
 	})
 
-	fetchComments(container)
+	go fetchComments(container, commentService)
 
 	s.StartAsync()
 }

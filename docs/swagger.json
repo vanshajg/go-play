@@ -96,6 +96,12 @@
                 "id": {
                     "type": "integer"
                 },
+                "kids": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
                 "parent": {
                     "type": "integer"
                 },
@@ -116,8 +122,11 @@
                 "id": {
                     "type": "integer"
                 },
-                "remote": {
+                "is_remote": {
                     "type": "boolean"
+                },
+                "text": {
+                    "type": "string"
                 }
             }
         }

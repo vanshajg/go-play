@@ -5,6 +5,10 @@ definitions:
         type: string
       id:
         type: integer
+      kids:
+        items:
+          type: integer
+        type: array
       parent:
         type: integer
       text:
@@ -18,8 +22,10 @@ definitions:
     properties:
       id:
         type: integer
-      remote:
+      is_remote:
         type: boolean
+      text:
+        type: string
     type: object
 info:
   contact: {}
